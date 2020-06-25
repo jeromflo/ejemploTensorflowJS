@@ -1,0 +1,15 @@
+{
+    "name": "tftry",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "dependencies": {
+        "@tensorflow/tfjs": "^2.0.1",
+        "@types/webgl2": "0.0.5"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC"
+}
