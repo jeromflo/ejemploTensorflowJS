@@ -13,42 +13,42 @@ for (let i = 0; i < filas.length - 1; i++) {
 
 }
 
-let x: number[]=[];
-let y: number[]=[];
+let x: number[] = [];
+let y: number[] = [];
 for (let i = 0; i < array.length; i++) {
-        x[i]=array[i][0];
-        y[i]=array[i][1];
+    x[i] = array[i][0];
+    y[i] = array[i][1];
 }
 
-let tensorX=tf.tensor(x,[x.length,1],"float32");//creo el tensor para la variable x
-let tensorY=tf.tensor(y,[y.length,1],"float32");//creo un tensor para la variable y
+let tensorX = tf.tensor(x, [x.length, 1], "float32");//creo el tensor para la variable x
+let tensorY = tf.tensor(y, [y.length, 1], "float32");//creo un tensor para la variable y
 //en ambos casos le digo el shape, es decir el tamanyo de la matriz y el tipo que queremos
-let model=tf.sequential();
+let model = tf.sequential();
 //creamos nuestro modelo
 
-let layer=tf.layers.dense({units:100,inputShape:[1],activation:"relu"});//inputshape, hace referencia, al numero de atributos de los datos
+let layer = tf.layers.dense({ units: 100, inputShape: [1], activation: "relu" });//inputshape, hace referencia, al numero de atributos de los datos
 //creamos nueestra capa de neuronas, en este caso, le decimos que queremos 100 neuronas de primera capa oculta 
 model.add(layer);
- layer=tf.layers.dropout({rate:0.2});//es parecido a una capa densa, pero es una capa intermedia, la cual tiene un 20% de prob de no transmitir la informacion
- //haciendo que no se haga mayor overfitting
- model.add(layer);
- layer=tf.layers.dense({units:50,activation:"relu",inputShape:[100]});//siguiente capa oculta con 50 neuronas
- model.add(layer);
- layer=tf.layers.dense({units:100,activation:"relu",inputShape:[50]});//siguiente capa oculta con 100 neuronas
- model.add(layer);
- layer=tf.layers.dense({units:1,activation:"relu"});//capa de salida con una neurona, ya que solo predecimos un valor
- model.add(layer);
+layer = tf.layers.dropout({ rate: 0.2 });//es parecido a una capa densa, pero es una capa intermedia, la cual tiene un 20% de prob de no transmitir la informacion
+//haciendo que no se haga mayor overfitting
+model.add(layer);
+layer = tf.layers.dense({ units: 50, activation: "relu", inputShape: [100] });//siguiente capa oculta con 50 neuronas
+model.add(layer);
+layer = tf.layers.dense({ units: 100, activation: "relu", inputShape: [50] });//siguiente capa oculta con 100 neuronas
+model.add(layer);
+layer = tf.layers.dense({ units: 1, activation: "relu" });//capa de salida con una neurona, ya que solo predecimos un valor
+model.add(layer);
 
 
 //anyadimos la capa al modelo
-model.compile({ loss: 'meanSquaredError', optimizer:"adam" ,metrics:tf.metrics.meanAbsoluteError});
+model.compile({ loss: tf.losses.meanSquaredError, optimizer: "adam", metrics: tf.metrics.meanAbsoluteError });
 //compilamos con la funcion de error de error medio y el optimizador sgd o adam
 model.summary();//metodo que imprime una lista con las capas
 
-model.fit(tensorX,tensorY,{epochs:5});//epochs es el numero de iteracciones de backpropagetion
+model.fit(tensorX, tensorY, { epochs: 5 });//epochs es el numero de iteracciones de backpropagetion
 
 //entrenamos el modelo
-//let evaluate=model.evaluate(tensorX,tensorY);
-    //evaluate=tf.tensor(evaluate.);
- console.log(model.predict(tf.tensor2d([[5],[1]], [2, 1])).toString());
+let evaluate = model.evaluate(tensorX, tensorY);//devuelve el valor de perdida y el valor  de la metrica segun el compile(),entiendo q ue el valor de la metrica, es el accurancy
+console.log(evaluate.toString());
+console.log(model.predict(tf.tensor2d([[5], [30]], [2, 1])).toString());
 //imprimimos la prediccion segun los valores pasados

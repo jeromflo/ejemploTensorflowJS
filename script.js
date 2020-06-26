@@ -34,12 +34,12 @@ model.add(layer);
 layer = tf.layers.dense({ units: 1, activation: "relu" }); //capa de salida con una neurona, ya que solo predecimos un valor
 model.add(layer);
 //anyadimos la capa al modelo
-model.compile({ loss: 'meanSquaredError', optimizer: "adam", metrics: tf.metrics.meanAbsoluteError });
+model.compile({ loss: tf.losses.meanSquaredError, optimizer: "adam", metrics: tf.metrics.meanAbsoluteError });
 //compilamos con la funcion de error de error medio y el optimizador sgd o adam
 model.summary(); //metodo que imprime una lista con las capas
 model.fit(tensorX, tensorY, { epochs: 5 }); //epochs es el numero de iteracciones de backpropagetion
 //entrenamos el modelo
-//let evaluate=model.evaluate(tensorX,tensorY);
-//evaluate=tf.tensor(evaluate.);
-console.log(model.predict(tf.tensor2d([[5], [1]], [2, 1])).toString());
+var evaluate = model.evaluate(tensorX, tensorY); //devuelve el valor de perdida y el valor  de la metrica segun el compile(),entiendo q ue el valor de la metrica, es el accurancy
+console.log(evaluate.toString());
+console.log(model.predict(tf.tensor2d([[5], [30]], [2, 1])).toString());
 //imprimimos la prediccion segun los valores pasados
