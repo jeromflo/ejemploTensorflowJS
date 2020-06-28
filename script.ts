@@ -46,18 +46,12 @@ model.compile({ loss: tf.losses.meanSquaredError, optimizer: "adam", metrics: tf
 model.summary();//metodo que imprime una lista con las capas
 
 
- model.fit(tensorX, tensorY, { epochs: 100 });//epochs es el numero de iteracciones de backpropagetion
-//entrenamos el modelo
-let evaluate = model.evaluate(tensorX, tensorY);//devuelve el valor de perdida y el valor  de la metrica segun el compile(),entiendo q ue el valor de la metrica, es el accurancy
-console.log(evaluate.toString());    
-setTimeout(()=>{
-    let evaluate = model.evaluate(tensorX, tensorY);//devuelve el valor de perdida y el valor  de la metrica segun el compile(),entiendo q ue el valor de la metrica, es el accurancy
-console.log(evaluate.toString());
-    console.log(model.predict(tf.tensor2d([[5], [30]], [2, 1])).toString());
-
-},3000);
-
-//imprimimos la prediccion segun los valores pasados
-function getTrain( tensorX:any, tensorY:any):void{
-
-}
+ model.fit(tensorX, tensorY, { epochs: 100 }).then((value)=>{//hay que usar promesas, ya que tenemos que esperar a que termine el entranmiento
+    //de la red neuronal, permitiendo que el evaluate final, se haga con la ultima iteraccion del fit.
+    console.log(value);
+    //if(value.epoch.length==14){
+    let evaluate=model.evaluate(tensorX, tensorY);
+    console.log(evaluate.toString());
+    //}
+});//epochs es el numero de iteracciones de backpropagetion
+ 
